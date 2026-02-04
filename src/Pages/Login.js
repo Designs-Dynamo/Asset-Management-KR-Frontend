@@ -38,7 +38,7 @@ function Login() {
       localStorage.setItem('userRole', data.user.role); // Optional: Save role for UI logic
 
       // 4. Navigate based on Role returned by Backend
-      if (localStorage.getItem('userRole') == 'ADMIN') {
+      if (localStorage.getItem('userRole') === 'ADMIN') {
         navigate("/admindashboard");
       } else {
          navigate(`/${data.user.branchId}/dashboard`);
