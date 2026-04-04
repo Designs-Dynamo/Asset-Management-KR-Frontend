@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { getAuthData } from "../utils/url"; // Using the utility we discussed
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import StatsCard from "../components/Statscard";
 import Icon from "../components/Icon";

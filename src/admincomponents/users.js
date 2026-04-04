@@ -90,7 +90,7 @@ const UserCard = ({ user, onDelete }) => {
   // Define Role Identities
   const isAdmin = user.role === "ADMIN";
   const isRegionManager = user.role === "REGION_MANAGER";
-  const isBranchUser = user.role === "BRANCH_USER";
+  
 
   // Dynamic Styles based on Role
   const theme = {

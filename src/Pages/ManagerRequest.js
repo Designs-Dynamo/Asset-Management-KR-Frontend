@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ManagerNavbar from "../components/ManagerNavbar";
 import Icon from "../components/Icon";
-import { getAuthData } from "../utils/url";
+
 
 // --- Helper Components ---
 
@@ -44,7 +44,6 @@ const ManagerRequests = () => {
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [processing, setProcessing] = useState(false);
   
-  const auth = getAuthData();
 
   const fetchRequests = async () => {
     try {
