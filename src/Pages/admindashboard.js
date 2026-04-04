@@ -4,7 +4,7 @@ import AdminNav from "../admincomponents/AdminNav";
 import Footer from "../components/Footer";
 import StatsCard from "../components/Statscard";
 import Icon from "../components/Icon";
-import { fetchallAssets, fetchRequests } from "../utils/apiauth";
+import { fetchallAssets } from "../utils/apiauth";
 
 // --- SUB-COMPONENT: VALUATION TREND CHART (Visual Only) ---
 const ValuationChart = ({ totalValue }) => {
