@@ -15,6 +15,8 @@ import BranchRequests from "./components/Branchrequests";
 import CreateAsset from "./admincomponents/createasset";
 import CreateUser from "./admincomponents/createuser";
 import UserList from "./admincomponents/users";
+import ManagerAssets from "./Pages/ManagerAssets";
+import ManagerRequests from "./Pages/ManagerRequest";
 
 function App() {
   return (
@@ -85,6 +87,25 @@ function App() {
                   <UserList />
                 </ProtectedRoute>
               }
+            />
+
+            {/* REGION MANAGER ROUTES */}
+            <Route 
+              path="/:regionId/manager/requests" 
+              element={
+                <ProtectedRoute allowedRoles={['REGION_MANAGER']}>
+                  <ManagerRequests />
+                </ProtectedRoute>
+              } 
+            />
+
+            <Route 
+              path="/:regionId/manager/dashboard" 
+              element={
+                <ProtectedRoute allowedRoles={['REGION_MANAGER']}>
+                  <ManagerAssets />
+                </ProtectedRoute>
+              } 
             />
 
           </Routes>

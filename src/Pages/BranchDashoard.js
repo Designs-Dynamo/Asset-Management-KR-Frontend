@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import StatsCard from '../components/Statscard';
 import StatusBadge from '../components/StatusBadge';
@@ -53,6 +54,7 @@ const BranchDashboard = () => {
   // New State for computed lists
   const [maintenanceList, setMaintenanceList] = useState([]);
   const [topEmployees, setTopEmployees] = useState([]);
+  const { branchId } = useParams();
 
   useEffect(() => {
 
@@ -126,7 +128,7 @@ const BranchDashboard = () => {
           <div className="flex justify-between items-end mb-8">
             <div className="space-y-1">
               <h1 className="text-3xl font-black tracking-tight">Branch Overview</h1>
-              <p className="text-slate-500">Managing inventory for <span className="text-slate-900 dark:text-white font-semibold">Downtown Tech Hub</span></p>
+              <p className="text-slate-500">Managing inventory for <span className="text-slate-900 dark:text-white font-semibold">{branchId}</span></p>
             </div>
             <button className="px-4 py-2 text-sm font-bold bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg flex items-center gap-2 hover:bg-slate-50 transition-colors">
               <span className="material-symbols-outlined text-[18px]">ios_share</span>
@@ -135,14 +137,14 @@ const BranchDashboard = () => {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             <StatsCard title="Total Assets" icon="inventory_2" value={loading ?"..." :stats.total} isPositive={true} />
             <StatsCard title="Assigned" icon="check_circle" value={loading ?"..." :stats.assigned} isPositive={true} iconColor="text-green-500" />
-            
+            <StatsCard title="In Maintenance" icon="build" value={loading ?"..." :stats.maintenance} isPositive={false} iconColor="text-amber-500" />
             {/* Replaced generic maintenance card with actionable widget logic later, keeping layout */}
             <div className="lg:col-span-2 grid grid-cols-2 gap-4">
-                 <StatsCard title="In Maintenance" icon="build" value={loading ?"..." :stats.maintenance} isPositive={false} iconColor="text-amber-500" />
-                 <StatsCard title="Pending Requests" icon="pending_actions" value={loading ?"..." :stats.pending} isPositive={true} iconColor="text-blue-500" />
+                 
+                 
             </div>
           </div>
 

@@ -13,10 +13,11 @@ const Navbar = () => {
   // State for Profile Wizard
   const [showProfile, setShowProfile] = useState(false);
   const [userInfo, setUserInfo] = useState({
-    name: "User",
+    name: null,
     email: "user@system.com",
     role: "GUEST",
-    branchId: null
+    branchId: null,
+    regionId: null
   });
 
   // 1. Logic to get Branch ID & User Info from Token
@@ -27,8 +28,9 @@ const Navbar = () => {
         const decoded = jwtDecode(token);
         console.log(decoded);
         setUserInfo({
-
-          branchId: decoded.branchId || params.branchId
+          name: decoded.name,
+          branchId: decoded.branchId || params.branchId,
+          regionId: decoded.regionId
         });
       } catch (e) {
         console.error("Invalid token");
@@ -76,7 +78,7 @@ const Navbar = () => {
       <div className="flex items-center gap-6">
         <div className="flex items-center gap-2">
           <div className="size-7 bg-primary rounded flex items-center justify-center text-white">
-            <Icon name="inventory_2" className="!text-lg" />
+            <Icon name="account_tree" className="!text-lg" />
           </div>
           <h2 className="text-base font-extrabold tracking-tight text-slate-900 dark:text-white">
             AssetTrack <span className="text-primary">Pro</span>
@@ -108,13 +110,13 @@ const Navbar = () => {
       <div className="flex items-center gap-4">
         
         {/* Search Bar */}
-        <div className="relative">
+        {/* <div className="relative">
           <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 !text-base" />
           <input
             className="w-80 h-8 pl-9 pr-4 py-1 text-xs rounded border border-slate-200 dark:border-border-dark bg-slate-100 dark:bg-background-dark focus:ring-1 focus:ring-primary/50 outline-none text-slate-600 dark:text-slate-300"
             placeholder="Jump to serial, IP, or user..."
           />
-        </div>
+        </div> */}
 
         {/* Notifications */}
         <div className="flex items-center gap-3 pl-4 border-l border-slate-200 dark:border-border-dark">
@@ -158,6 +160,18 @@ const Navbar = () => {
                     <div>
                       <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
                         {getBranchName(userInfo.branchId) || "Unknown Branch"}
+                      </p>
+                      <p className="text-[10px] font-mono text-slate-500">ID: {userInfo.branchId || "N/A"}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-border-dark group cursor-default">
+                    <div className="size-8 rounded bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <Icon name="domain" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                        {userInfo.regionId || "Unknown Branch"}
                       </p>
                       <p className="text-[10px] font-mono text-slate-500">ID: {userInfo.branchId || "N/A"}</p>
                     </div>

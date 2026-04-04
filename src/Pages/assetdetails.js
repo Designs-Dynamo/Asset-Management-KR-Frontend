@@ -12,7 +12,7 @@ import AdminNav from "../admincomponents/AdminNav";
 const getUserRole = () => {
   const role = localStorage.getItem('userRole');
   if (role) return role;
-  return 'BRANCH_USER'; 
+  return 'BRANCH_USER';
 };
 
 
@@ -37,7 +37,7 @@ const ImageCarousel = ({ images, category }) => {
     return (
       <div className="aspect-video bg-background-dark flex flex-col items-center justify-center text-slate-600 border border-border-dark rounded-xl">
         <span className="material-symbols-outlined text-[60px] mb-2 opacity-50">
-            {category === 'Laptop' ? 'laptop_mac' : 'devices'}
+          {category === 'Laptop' ? 'laptop_mac' : 'devices'}
         </span>
         <p className="text-[10px] uppercase tracking-[0.2em] font-bold opacity-70">No Media</p>
       </div>
@@ -58,17 +58,17 @@ const ImageCarousel = ({ images, category }) => {
     <div className="flex flex-col gap-3">
       {/* Main Display Area */}
       <div className="relative group aspect-video bg-zinc-950 border border-border-dark  overflow-hidden flex items-center justify-center shadow-inner">
-        <img 
-          src={images[activeIndex].url} 
-          alt="Main Asset View" 
+        <img
+          src={images[activeIndex].url}
+          alt="Main Asset View"
           className="w-full h-full object-contain transition-transform duration-500"
         />
-        
+
         {/* === PROFESSIONAL ARROWS === */}
         {images.length > 1 && (
           <>
             {/* Left Arrow */}
-            <button 
+            <button
               onClick={handlePrev}
               className="absolute left-3 top-1/2 -translate-y-1/2 
                          w-10 h-10 flex items-center justify-center rounded-full 
@@ -81,7 +81,7 @@ const ImageCarousel = ({ images, category }) => {
             </button>
 
             {/* Right Arrow */}
-            <button 
+            <button
               onClick={handleNext}
               className="absolute right-3 top-1/2 -translate-y-1/2 
                          w-10 h-10 flex items-center justify-center rounded-full 
@@ -107,14 +107,13 @@ const ImageCarousel = ({ images, category }) => {
       {images.length > 1 && (
         <div className="grid grid-cols-5 gap-2">
           {images.map((img, index) => (
-            <div 
+            <div
               key={img._id || index}
               onClick={() => setActiveIndex(index)}
-              className={`aspect-square  cursor-pointer overflow-hidden relative transition-all duration-300 ${
-                activeIndex === index 
-                  ? "ring-2 ring-primary ring-offset-2 ring-offset-surface-dark opacity-100" 
-                  : "opacity-50 hover:opacity-100 grayscale hover:grayscale-0"
-              }`}
+              className={`aspect-square  cursor-pointer overflow-hidden relative transition-all duration-300 ${activeIndex === index
+                ? "ring-2 ring-primary ring-offset-2 ring-offset-surface-dark opacity-100"
+                : "opacity-50 hover:opacity-100 grayscale hover:grayscale-0"
+                }`}
             >
               <img src={img.url} className="w-full h-full object-cover" alt="Thumbnail" />
             </div>
@@ -136,7 +135,7 @@ const AssetDetails = () => {
   const [asset, setAsset] = useState(initialAsset);
   const [loading, setLoading] = useState(!initialAsset);
   const [error, setError] = useState(null);
-  const [showTransferWizard, setShowTransferWizard] = useState(false); 
+  const [showTransferWizard, setShowTransferWizard] = useState(false);
 
   const userRole = getUserRole();
 
@@ -172,16 +171,16 @@ const AssetDetails = () => {
   // --- Loading / Error UI ---
   if (loading) return (
     <div className="h-screen w-full flex flex-col items-center justify-center bg-background-light dark:bg-background-dark text-slate-500">
-        <span className="material-symbols-outlined animate-spin text-4xl mb-4 text-primary">progress_activity</span>
-        <p className="text-sm font-bold uppercase tracking-widest">Loading Asset Telemetry...</p>
+      <span className="material-symbols-outlined animate-spin text-4xl mb-4 text-primary">progress_activity</span>
+      <p className="text-sm font-bold uppercase tracking-widest">Loading Asset Telemetry...</p>
     </div>
   );
 
   if (error) return (
     <div className="h-screen w-full flex flex-col items-center justify-center bg-background-light dark:bg-background-dark text-red-500">
-        <span className="material-symbols-outlined text-5xl mb-4">gpp_bad</span>
-        <p className="text-lg font-bold">{error}</p>
-        <button onClick={() => navigate(-1)} className="mt-4 text-sm underline hover:text-white">Go Back</button>
+      <span className="material-symbols-outlined text-5xl mb-4">gpp_bad</span>
+      <p className="text-lg font-bold">{error}</p>
+      <button onClick={() => navigate(-1)} className="mt-4 text-sm underline hover:text-white">Go Back</button>
     </div>
   );
 
@@ -207,7 +206,7 @@ const AssetDetails = () => {
                 {asset.assetName || asset.name} <span className="text-slate-500 font-light">/</span> <span className="text-primary">{asset.assetCode}</span>
               </h1>
               <span className={`px-2 py-0.5 text-[10px] font-bold uppercase`}>
-                <StatusBadge status={asset.deviceDetails.currentStatus}/>
+                <StatusBadge status={asset.deviceDetails.currentStatus} />
               </span>
             </div>
             <div className="mt-1 flex items-center gap-6 text-xs font-mono text-slate-500">
@@ -221,11 +220,11 @@ const AssetDetails = () => {
           </div>
           <div className="flex gap-2">
             <button onClick={() => navigate(`/assetdetails/${id}/edit`, { state: { asset } })} // Pass asset data to avoid re-fetching
-            className="flex items-center gap-2 px-4 py-2 bg-surface-dark border border-border-dark hover:border-slate-500 transition-colors text-xs font-bold uppercase tracking-widest text-slate-300">
+              className="flex items-center gap-2 px-4 py-2 bg-surface-dark border border-border-dark hover:border-slate-500 transition-colors text-xs font-bold uppercase tracking-widest text-slate-300">
               <Icon name="edit" className="!text-sm" /> Edit Asset
             </button>
             <button onClick={() => setShowTransferWizard(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-primary text-white hover:bg-primary/90 transition-all text-xs font-bold uppercase tracking-widest">
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-white hover:bg-primary/90 transition-all text-xs font-bold uppercase tracking-widest">
               <Icon name="change_circle" className="!text-sm font-[30px]" /> Branch Change
             </button>
           </div>
@@ -233,7 +232,7 @@ const AssetDetails = () => {
 
         {/* Dashboard Grid */}
         <div className="flex-1 grid grid-cols-12 gap-6 min-h-0">
-          
+
           {/* Left Column: Gallery & Meta */}
           <div className="col-span-3 flex flex-col gap-6 min-h-0">
             <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark p-3">
@@ -346,12 +345,12 @@ const AssetDetails = () => {
                     borderClasses="border-r border-b border-border-dark"
                   />
                   <SpecCard
-                    title="Asset Type"
+                    title="DIVISION"
                     icon="devices"
-                    main={asset.assetType}
+                    main={asset?.division || "HO"}
                     borderClasses="border-b border-border-dark"
                   />
-                  
+
                 </div>
                 <div className="p-5">
                   <p className="text-[10px] font-bold text-slate-500 uppercase mb-4 tracking-widest">Extended Hardware Telemetry</p>
@@ -364,16 +363,16 @@ const AssetDetails = () => {
                       </tr>
                     </thead>
                     <tbody className="text-xs">
-                      
-                        <tr  className="border-b border-border-dark/50 last:border-0">
-                          <td className="py-3"><span> Asset Code </span></td>
-                          <td className="py-3 font-mono text-slate-500 uppercase"><span> {asset.assetCode} </span></td>
-                          <td className={`py-3 text-right {}`}>{asset.deviceDetails.currentStatus}</td>
-                        </tr>
-                        <tr  className="border-b border-border-dark/50 last:border-0">
-                          <td className="py-3"><span> Asset Type </span></td>
-                          <td className="py-3 font-mono text-slate-500 uppercase"><span> {asset.assetType} </span></td>
-                        </tr>              
+
+                      <tr className="border-b border-border-dark/50 last:border-0">
+                        <td className="py-3"><span> Asset Code </span></td>
+                        <td className="py-3 font-mono text-slate-500 uppercase"><span> {asset.assetCode} </span></td>
+                        <td className={`py-3 text-right {}`}>{asset.deviceDetails.currentStatus}</td>
+                      </tr>
+                      <tr className="border-b border-border-dark/50 last:border-0">
+                        <td className="py-3"><span> Asset Type </span></td>
+                        <td className="py-3 font-mono text-slate-500 uppercase"><span> {asset.assetType} </span></td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>
@@ -394,24 +393,33 @@ const AssetDetails = () => {
                   <span className="text-[10px] font-bold text-slate-500 uppercase">Live Feed</span>
                 </div>
               </div>
-              
+
               <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
                 {asset.activity && asset.activity.length > 0 ? (
                   asset.activity.map((log, idx) => (
                     <div key={idx} className="relative pl-6 pb-4 border-l border-border-dark last:pb-0 last:border-l-0">
                       {/* Dynamic Color Dot */}
                       <div className={`absolute -left-[5px] top-0 size-2.5 rounded-full ${getActivityColor(log.action)} ring-4 ring-surface-dark`}></div>
-                      
+
                       <div className="flex justify-between items-start mb-1">
                         <span className="text-[10px] font-bold uppercase text-slate-300">{log.action || "UPDATE"}</span>
                         <span className="text-[10px] font-mono text-slate-500">
                           {log.performedAt ? new Date(log.performedAt).toLocaleString() : ""}
                         </span>
                       </div>
-                      
-                      <p className="text-xs font-bold mb-1 text-slate-200">{log.description || "System update detected"}</p>
+
+                      <p className="text-xs font-bold mb-1 text-slate-200">
+                        {typeof log.description === "object"
+                          ? JSON.stringify(log.description)
+                          : log.description || "System update detected"}
+                      </p>
+
                       {log.performedBy && (
-                        <p className="text-[10px] text-slate-500">User: {log.performedBy}</p>
+                        <p className="text-[10px] text-slate-500">
+                          User: {typeof log.performedBy === "object"
+                            ? log.performedBy?.name
+                            : log.performedBy}
+                        </p>
                       )}
                     </div>
                   ))
@@ -435,9 +443,9 @@ const AssetDetails = () => {
         <Footer />
       </main>
       {asset && (
-        <BranchChangeWizard 
-          isOpen={showTransferWizard} 
-          onClose={() => setShowTransferWizard(false)} 
+        <BranchChangeWizard
+          isOpen={showTransferWizard}
+          onClose={() => setShowTransferWizard(false)}
           asset={asset}
         />
       )}

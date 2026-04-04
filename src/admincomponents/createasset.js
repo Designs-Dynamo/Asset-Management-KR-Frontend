@@ -148,7 +148,7 @@ const CreateAsset = () => {
       });
 
       // 2. API Call
-      await axios.post("https://asset-management-and-tracking-syste.vercel.app/api/assets/", payload, {
+      await axios.post("http://localhost:5000/api/assets/", payload, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data" 

@@ -48,16 +48,7 @@ const AdminNav = () => {
         </nav>
       </div>
       <div className="flex items-center gap-4">
-        <div className="relative">
-          <Icon
-            name="search"
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 !text-base"
-          />
-          <input
-            className="w-80 h-8 pl-9 pr-4 py-1 text-xs rounded border border-slate-200 dark:border-border-dark bg-slate-100 dark:bg-background-dark focus:ring-1 focus:ring-primary/50"
-            placeholder="Jump to serial, IP, or user..."
-          />
-        </div>
+        
         <div className="flex items-center gap-3 pl-4 border-l border-border-dark">
           <Icon
             name="notifications"

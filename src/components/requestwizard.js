@@ -22,25 +22,32 @@ const Badge = ({ children, color }) => {
   );
 };
 
-// --- DIFF ROW COMPONENT ---
+// --- UPDATED DIFF ROW COMPONENT ---
+// This now shows the row even if there is no proposed change
 const DiffRow = ({ label, current, proposed }) => {
-  if (proposed === undefined || proposed === null || proposed === "") return null;
+  // If both are missing, don't render the row
+  if (!current && !proposed) return null;
 
-  const isChanged = String(current) !== String(proposed);
+  const hasProposed = proposed !== undefined && proposed !== null && proposed !== "";
+  const isChanged = hasProposed && String(current) !== String(proposed);
 
   return (
     <div className={`grid grid-cols-12 gap-4 p-3 border-b border-slate-100 dark:border-border-dark last:border-0 ${isChanged ? 'bg-amber-50/50 dark:bg-amber-500/5' : ''}`}>
       <div className="col-span-4 text-xs font-bold text-slate-500 uppercase tracking-wide self-center">
         {label}
       </div>
-      <div className="col-span-4 text-sm text-slate-400 font-mono self-center break-words">
+      <div className={`col-span-4 text-sm self-center break-words ${isChanged ? 'text-slate-400 font-mono' : 'text-slate-700 dark:text-slate-300 font-bold'}`}>
         {current || <span className="opacity-30">--</span>}
       </div>
       <div className="col-span-4 text-sm font-bold flex items-center gap-2 self-center break-words">
-        {isChanged && <Icon name="arrow_right_alt" className="text-amber-500 text-xs" />}
-        <span className={isChanged ? "text-primary" : "text-slate-700 dark:text-slate-300"}>
-          {proposed}
-        </span>
+        {isChanged ? (
+          <>
+            <Icon name="arrow_right_alt" className="text-amber-500 text-xs" />
+            <span className="text-primary">{proposed}</span>
+          </>
+        ) : (
+          <span className="text-slate-400 text-[10px] font-normal italic tracking-tight">No change</span>
+        )}
       </div>
     </div>
   );
@@ -58,7 +65,7 @@ const AdminRequests = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("https://asset-management-and-tracking-syste.vercel.app/api/asset-update/pending", {
+      const res = await axios.get("http://localhost:5000/api/asset-update/admin/all", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRequests(res.data);
@@ -80,8 +87,8 @@ const AdminRequests = () => {
     try {
       const token = localStorage.getItem("authToken");
       const endpoint = status === 'APPROVE' 
-        ? `https://asset-management-and-tracking-syste.vercel.app/api/asset-update/${selectedRequest._id}/approve`
-        : `https://asset-management-and-tracking-syste.vercel.app/api/asset-update/${selectedRequest._id}/reject`;
+        ? `http://localhost:5000/api/asset-update/${selectedRequest._id}/approve`
+        : `http://localhost:5000/api/asset-update/${selectedRequest._id}/reject`;
 
       await axios.put(endpoint, {}, {
         headers: { Authorization: `Bearer ${token}` }
@@ -154,10 +161,12 @@ const AdminRequests = () => {
                         </td>
                         <td className="px-6 py-4">
                           <p className="text-sm font-medium">{req.branchId}</p>
-                          <p className="text-xs text-slate-500">By: {req.requestedBy}</p>
+                          {/* FIX: Use .name and .branchId from populated requestedBy object */}
+                          <p className="text-xs text-slate-500">By: {req.requestedBy?.name || "Unknown"}</p>
+                          <p className="text-xs text-slate-500">User Branch: {req.requestedBy?.branchId || "N/A"}</p>
                         </td>
                         <td className="px-6 py-4 text-sm text-slate-500">{new Date(req.createdAt).toLocaleDateString()}</td>
-                        <td className="px-6 py-4"><Badge color="amber">Pending Review</Badge></td>
+                        <td className="px-6 py-4"><Badge color="amber">{req.status}</Badge></td>
                         <td className="px-6 py-4 text-right">
                           <button onClick={() => setSelectedRequest(req)} className="px-4 py-2 bg-primary text-white text-xs font-bold uppercase tracking-widest rounded-lg hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all">Review</button>
                         </td>
@@ -194,7 +203,7 @@ const AdminRequests = () => {
               <div className="mb-8 p-4 rounded-xl border border-primary/20 bg-primary/5 flex items-center gap-4">
                 <Icon name="info" className="text-primary text-2xl" />
                 <div>
-                  <p className="text-sm font-bold text-primary">Updating Asset: {selectedRequest.assetId?.assetName}</p>
+                  <p className="text-sm font-bold text-primary">Updating Asset: {selectedRequest.assetId?.assetName || selectedRequest.assetId?.assetType}</p>
                   <p className="text-xs text-slate-500">Asset Code: {selectedRequest.assetId?.assetCode} • Current Branch: {selectedRequest.branchId}</p>
                 </div>
               </div>
@@ -208,31 +217,25 @@ const AdminRequests = () => {
                     <div className="col-span-4">Proposed Value</div>
                   </div>
                   
-                  {/* Meta Updates */}
-                  {selectedRequest.updatedAssetMeta && (
-                    <>
-                      <DiffRow label="Asset Type" current={selectedRequest.assetId?.assetType} proposed={selectedRequest.updatedAssetMeta.assetType} />
-                      <DiffRow label="Company" current={selectedRequest.assetId?.assetCompany} proposed={selectedRequest.updatedAssetMeta.assetCompany} />
-                      <DiffRow label="Purchase Date" current={selectedRequest.assetId?.purchaseDate?.split('T')[0]} proposed={selectedRequest.updatedAssetMeta.purchaseDate?.split('T')[0]} />
-                      <DiffRow label="Assigned Employee" current={selectedRequest.assetId?.assignedTo} proposed={selectedRequest.updatedAssetMeta.assignedTo} />
-                      <DiffRow label="Department" current={selectedRequest.assetId?.department} proposed={selectedRequest.updatedAssetMeta.department} />
-                    </>
-                  )}
+                  {/* Meta Updates - Always showing rows now */}
+                  <DiffRow label="Asset Type" current={selectedRequest.assetId?.assetType} proposed={selectedRequest.updatedAssetMeta?.assetType} />
+                  <DiffRow label="Company" current={selectedRequest.assetId?.assetCompany} proposed={selectedRequest.updatedAssetMeta?.assetCompany} />
+                  <DiffRow label="Purchase Date" current={selectedRequest.assetId?.purchaseDate?.split('T')[0]} proposed={selectedRequest.updatedAssetMeta?.purchaseDate?.split('T')[0]} />
+                  <DiffRow label="Assigned Employee" current={selectedRequest.assetId?.assignedTo} proposed={selectedRequest.updatedAssetMeta?.assignedTo} />
+                  <DiffRow label="Department" current={selectedRequest.assetId?.department} proposed={selectedRequest.updatedAssetMeta?.department} />
 
-                  {/* Device Details Updates */}
-                  {selectedRequest.updatedDeviceDetails && (
-                    <>
-                      <DiffRow label="Device Name" current={selectedRequest.assetId?.deviceDetails?.deviceName} proposed={selectedRequest.updatedDeviceDetails.deviceName} />
-                      <DiffRow label="CPU" current={selectedRequest.assetId?.deviceDetails?.cpu} proposed={selectedRequest.updatedDeviceDetails.cpu} />
-                      <DiffRow label="RAM" current={selectedRequest.assetId?.deviceDetails?.ram} proposed={selectedRequest.updatedDeviceDetails.ram} />
-                      <DiffRow label="SSD" current={selectedRequest.assetId?.deviceDetails?.ssd} proposed={selectedRequest.updatedDeviceDetails.ssd} />
-                      <DiffRow label="HDD" current={selectedRequest.assetId?.deviceDetails?.hdd} proposed={selectedRequest.updatedDeviceDetails.hdd} />
-                      <DiffRow label="OS" current={selectedRequest.assetId?.deviceDetails?.os} proposed={selectedRequest.updatedDeviceDetails.os} />
-                      <DiffRow label="Status" current={selectedRequest.assetId?.status || selectedRequest.assetId?.deviceDetails?.currentStatus} proposed={selectedRequest.updatedDeviceDetails.currentStatus} />
-                    </>
-                  )}
+                  {/* Technical Specifications Section */}
+                  <div className="col-span-12 px-3 py-2 bg-slate-200/50 dark:bg-white/5 text-slate-500 font-bold text-[10px] uppercase tracking-widest">
+                    Technical Specifications
+                  </div>
+                  <DiffRow label="Device Name" current={selectedRequest.assetId?.deviceDetails?.deviceName} proposed={selectedRequest.updatedDeviceDetails?.deviceName} />
+                  <DiffRow label="CPU" current={selectedRequest.assetId?.deviceDetails?.cpu} proposed={selectedRequest.updatedDeviceDetails?.cpu} />
+                  <DiffRow label="RAM" current={selectedRequest.assetId?.deviceDetails?.ram} proposed={selectedRequest.updatedDeviceDetails?.ram} />
+                  <DiffRow label="SSD" current={selectedRequest.assetId?.deviceDetails?.ssd} proposed={selectedRequest.updatedDeviceDetails?.ssd} />
+                  <DiffRow label="HDD" current={selectedRequest.assetId?.deviceDetails?.hdd} proposed={selectedRequest.updatedDeviceDetails?.hdd} />
+                  <DiffRow label="OS" current={selectedRequest.assetId?.deviceDetails?.os} proposed={selectedRequest.updatedDeviceDetails?.os} />
 
-                  {/* --- NEW: COST UPDATES --- */}
+                  {/* Financial Section */}
                   {selectedRequest.updatedextraprice && (
                     <>
                       <div className="col-span-12 px-3 py-2 bg-emerald-500/10 text-emerald-600 font-bold text-[10px] uppercase tracking-widest mt-2">
@@ -244,7 +247,6 @@ const AdminRequests = () => {
                       <DiffRow label="Service/Repair" current="--" proposed={selectedRequest.updatedextraprice.pother ? `$${selectedRequest.updatedextraprice.pother}` : null} />
                     </>
                   )}
-
                 </div>
 
                 {selectedRequest.requestedBranchId && (

@@ -5,32 +5,123 @@ import AdminNav from '../admincomponents/AdminNav';
 import Icon from '../components/Icon';
 
 // --- Sub-Component: User Card ---
-const UserCard = ({ user, onDelete }) => { // 1. Accepted onDelete prop
+// const UserCard = ({ user, onDelete }) => { // 1. Accepted onDelete prop
+//   const isBranchUser = user.role === "BRANCH_USER";
+
+//   return (
+//     <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-2xl overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 group">
+      
+//       {/* Card Header with Role Banner */}
+//       <div className={`h-2 w-full ${isBranchUser ? 'bg-blue-500' : 'bg-purple-600'}`}></div>
+      
+//       <div className="p-6">
+        
+//         {/* Top Row: Avatar & Role Badge */}
+//         <div className="flex justify-between items-start mb-4">
+//           <div className={`size-12 rounded-2xl flex items-center justify-center text-xl font-bold ${
+//             isBranchUser 
+//               ? 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400' 
+//               : 'bg-purple-50 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400'
+//           }`}>
+//             {user.name.charAt(0).toUpperCase()}
+//           </div>
+//           <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+//             isBranchUser 
+//               ? 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:border-blue-500/20' 
+//               : 'bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-500/10 dark:border-purple-500/20'
+//           }`}>
+//             {user.role === 'BRANCH_USER' ? 'Branch Mgr' : 'Admin'}
+//           </span>
+//         </div>
+
+//         {/* User Identity */}
+//         <div className="mb-6">
+//           <h3 className="text-lg font-black text-slate-900 dark:text-white truncate">{user.name}</h3>
+//           <div className="flex items-center gap-2 text-slate-500 mt-1">
+//             <Icon name="mail" className="!text-sm" />
+//             <p className="text-xs font-mono truncate">{user.email}</p>
+//           </div>
+//         </div>
+
+//         {/* Details Grid */}
+//         <div className="bg-slate-50 dark:bg-background-dark/50 rounded-xl p-4 border border-slate-100 dark:border-border-dark space-y-3">
+          
+//           <div className="flex justify-between items-center">
+//             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+//               <Icon name="store" className="!text-sm" /> Branch
+//             </span>
+//             <span className="text-sm font-bold text-slate-700 dark:text-slate-200 font-mono">
+//               {user.branchId}
+//             </span>
+//           </div>
+
+//           <div className="h-px bg-slate-200 dark:border-border-dark"></div>
+
+//           <div className="flex justify-between items-center">
+//             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+//               <Icon name="fingerprint" className="!text-sm" /> User ID
+//             </span>
+//             <span className="text-[10px] font-mono text-slate-500 truncate max-w-[100px]" title={user._id}>
+//               {user._id}
+//             </span>
+//           </div>
+
+//         </div>
+
+//         {/* Actions */}
+//         <div className="mt-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          
+//           {/* 2. Connected Delete Button */}
+//           <button 
+//             onClick={() => onDelete(user._id)} 
+//             className="flex-1 py-2 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 rounded-lg text-xs font-bold text-red-600 dark:text-red-400 flex items-center justify-center gap-2 transition-colors"
+//           >
+//             <Icon name="delete" className="!text-sm" /> Remove
+//           </button>
+//         </div>
+
+//       </div>
+//     </div>
+//   );
+// };
+
+// --- Sub-Component: User Card ---
+const UserCard = ({ user, onDelete }) => {
+  // Define Role Identities
+  const isAdmin = user.role === "ADMIN";
+  const isRegionManager = user.role === "REGION_MANAGER";
   const isBranchUser = user.role === "BRANCH_USER";
 
+  // Dynamic Styles based on Role
+  const theme = {
+    ADMIN: "bg-purple-600 text-purple-600 border-purple-100 dark:bg-purple-500/10 dark:text-purple-400",
+    REGION_MANAGER: "bg-amber-500 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400",
+    BRANCH_USER: "bg-blue-500 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:text-blue-400",
+  };
+
+  const roleLabel = {
+    ADMIN: "System Admin",
+    REGION_MANAGER: "Region Mgr",
+    BRANCH_USER: "Branch User",
+  };
+
   return (
-    <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-2xl overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 group">
+    <div className="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-md overflow-hidden hover:shadow-lg hover:border-primary/30 transition-all duration-300 group">
       
-      {/* Card Header with Role Banner */}
-      <div className={`h-2 w-full ${isBranchUser ? 'bg-blue-500' : 'bg-purple-600'}`}></div>
+      {/* Card Header with Dynamic Role Color */}
+      <div className={`h-2 w-full ${
+        isAdmin ? 'bg-purple-600' : isRegionManager ? 'bg-amber-500' : 'bg-blue-500'
+      }`}></div>
       
       <div className="p-6">
         
         {/* Top Row: Avatar & Role Badge */}
         <div className="flex justify-between items-start mb-4">
-          <div className={`size-12 rounded-2xl flex items-center justify-center text-xl font-bold ${
-            isBranchUser 
-              ? 'bg-blue-50 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400' 
-              : 'bg-purple-50 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400'
-          }`}>
-            {user.name.charAt(0).toUpperCase()}
+          <div className={`size-12 rounded-2xl flex items-center justify-center text-xl font-bold uppercase ${theme[user.role] || theme.BRANCH_USER}`}>
+            {user.name.charAt(0)}
           </div>
-          <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-            isBranchUser 
-              ? 'bg-blue-50 text-blue-600 border-blue-100 dark:bg-blue-500/10 dark:border-blue-500/20' 
-              : 'bg-purple-50 text-purple-600 border-purple-100 dark:bg-purple-500/10 dark:border-purple-500/20'
-          }`}>
-            {user.role === 'BRANCH_USER' ? 'Branch Mgr' : 'Admin'}
+          <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm ${theme[user.role] || theme.BRANCH_USER}`}>
+            {roleLabel[user.role] || "Unknown"}
           </span>
         </div>
 
@@ -48,10 +139,23 @@ const UserCard = ({ user, onDelete }) => { // 1. Accepted onDelete prop
           
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Icon name="store" className="!text-sm" /> Branch
+              <Icon name="location_city" className="!text-sm" /> 
+              {isRegionManager ? "Region" : "Branch"}
             </span>
             <span className="text-sm font-bold text-slate-700 dark:text-slate-200 font-mono">
-              {user.branchId}
+              {user.branchId || user.regionId || "N/A"}
+            </span>
+            
+          </div>
+
+          <div className="h-px bg-slate-200 dark:border-border-dark"></div>
+
+          <div className="flex justify-between items-center">
+            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+              <Icon name="verified_user" className="!text-sm" /> Region
+            </span>
+            <span className="text-[10px] font-bold text-slate-500 uppercase">
+              {user.regionId}
             </span>
           </div>
 
@@ -59,10 +163,10 @@ const UserCard = ({ user, onDelete }) => { // 1. Accepted onDelete prop
 
           <div className="flex justify-between items-center">
             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-              <Icon name="fingerprint" className="!text-sm" /> User ID
+              <Icon name="verified_user" className="!text-sm" /> Permission
             </span>
-            <span className="text-[10px] font-mono text-slate-500 truncate max-w-[100px]" title={user._id}>
-              {user._id}
+            <span className="text-[10px] font-bold text-slate-500 uppercase">
+              {isAdmin ? "Full Access" : isRegionManager ? "Regional" : "Local"}
             </span>
           </div>
 
@@ -70,13 +174,11 @@ const UserCard = ({ user, onDelete }) => { // 1. Accepted onDelete prop
 
         {/* Actions */}
         <div className="mt-6 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          
-          {/* 2. Connected Delete Button */}
           <button 
             onClick={() => onDelete(user._id)} 
-            className="flex-1 py-2 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 rounded-lg text-xs font-bold text-red-600 dark:text-red-400 flex items-center justify-center gap-2 transition-colors"
+            className="flex-1 py-2 bg-red-50 dark:bg-red-500/10 hover:bg-red-100 dark:hover:bg-red-500/20 rounded-lg text-xs font-bold text-red-600 dark:text-red-400 flex items-center justify-center gap-2 transition-colors border border-red-100 dark:border-red-500/20"
           >
-            <Icon name="delete" className="!text-sm" /> Remove
+            <Icon name="delete" className="!text-sm" /> Remove User
           </button>
         </div>
 
@@ -98,7 +200,7 @@ const UserList = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("authToken");
-        const res = await axios.get("https://asset-management-and-tracking-syste.vercel.app/api/auth/users", {
+        const res = await axios.get("http://localhost:5000/api/auth/users", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUsers(res.data);
@@ -121,7 +223,7 @@ const UserList = () => {
 
     try {
       const token = localStorage.getItem("authToken");
-      await axios.delete(`https://asset-management-and-tracking-syste.vercel.app/api/auth/users/${userId}`, {
+      await axios.delete(`http://localhost:5000/api/auth/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

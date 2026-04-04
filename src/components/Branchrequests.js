@@ -38,7 +38,7 @@ const BranchRequests = () => {
         setLoading(true);
         const token = localStorage.getItem("authToken");
         // Ensure you have this route in your backend: router.get("/my-requests", auth, getBranchRequests);
-        const res = await axios.get("https://asset-management-and-tracking-syste.vercel.app/api/asset-update/my-requests", {
+        const res = await axios.get("http://localhost:5000/api/asset-update/my-requests", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setRequests(res.data);

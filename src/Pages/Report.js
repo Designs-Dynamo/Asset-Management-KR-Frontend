@@ -258,7 +258,7 @@ const Reports = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("authToken");
-        const res = await axios.get("https://asset-management-and-tracking-syste.vercel.app/api/assets/analytics", {
+        const res = await axios.get("http://localhost:5000/api/assets/analytics", {
             headers: { Authorization: `Bearer ${token}` }
         });
         setData(res.data);

@@ -119,6 +119,7 @@ const ManageAsset = () => {
             department: data.department || "",
             assignedTo: data.assignedTo || "",
             deviceName: data.deviceDetails?.deviceName || "",
+            division: data.division || "",
             cpu: data.deviceDetails?.cpu || data.deviceDetails?.processor || "",
             ram: data.deviceDetails?.ram || "",
             ssd: data.deviceDetails?.ssd || data.deviceDetails?.storage || "",
@@ -198,7 +199,8 @@ const ManageAsset = () => {
         assetCompany: formData.company,
         purchaseDate: formData.purchaseDate,
         department: formData.department,
-        assignedTo: formData.assignedTo 
+        assignedTo: formData.assignedTo,
+        division: formData.division
       }));
 
       // 2. Device Details
@@ -224,8 +226,8 @@ const ManageAsset = () => {
       });
 
       let endpoint = userRole === 'ADMIN' 
-        ? `https://asset-management-and-tracking-syste.vercel.app/api/asset-update/admin/${id}` 
-        : `https://asset-management-and-tracking-syste.vercel.app/api/asset-update/${id}`;
+        ? `http://localhost:5000/api/asset-update/admin/${id}` 
+        : `http://localhost:5000/api/asset-update/${id}`;
 
       const token = localStorage.getItem("authToken");
       
@@ -317,6 +319,11 @@ const ManageAsset = () => {
                       <label className="block text-sm font-bold mb-3 text-slate-700 dark:text-slate-300">Department</label>
                       <input name="department" value={formData.department} onChange={handleChange} className="w-full bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-xl px-5 py-4 outline-none" type="text" placeholder="e.g. IT, HR" />
                       <ChangeAlert change={changes.department} />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold mb-3 text-slate-700 dark:text-slate-300">Division</label>
+                      <input name="division" value={formData.division} onChange={handleChange} className="w-full bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-xl px-5 py-4 outline-none" type="text" />
+                      <ChangeAlert change={changes.division} />
                     </div>
                     <div className="md:col-span-2">
                       <label className="block text-sm font-bold mb-3 text-slate-700 dark:text-slate-300">Purchase Date</label>

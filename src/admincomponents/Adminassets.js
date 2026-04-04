@@ -69,7 +69,7 @@ const Adminassets = () => {
     try {
       const token = localStorage.getItem("authToken");
       // Calling your specific delete route
-      await axios.post(`https://asset-management-and-tracking-syste.vercel.app/api/assets/delete/${id}`, {}, {
+      await axios.post(`http://localhost:5000/api/assets/delete/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
