@@ -226,8 +226,8 @@ const ManageAsset = () => {
       });
 
       let endpoint = userRole === 'ADMIN' 
-        ? `http://localhost:5000/api/asset-update/admin/${id}` 
-        : `http://localhost:5000/api/asset-update/${id}`;
+        ? `https://kr-asset-backend.vercel.app/api/asset-update/admin/${id}` 
+        : `https://kr-asset-backend.vercel.app/api/asset-update/${id}`;
 
       const token = localStorage.getItem("authToken");
       

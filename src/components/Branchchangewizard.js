@@ -32,7 +32,7 @@ const BranchChangeWizard = ({ isOpen, onClose, asset }) => {
       
       // Assuming you added the route: router.post("/branch-change/:assetId", ...)
       await axios.post(
-        `http://localhost:5000/api/asset-update/${asset._id}/branch-change`,
+        `https://kr-asset-backend.vercel.app/api/asset-update/${asset._id}/branch-change`,
         { requestedBranchId: selectedBranch.id },
         { headers: { Authorization: `Bearer ${token}` } }
       );

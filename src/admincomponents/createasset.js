@@ -148,7 +148,7 @@ const CreateAsset = () => {
       });
 
       // 2. API Call
-      await axios.post("http://localhost:5000/api/assets/", payload, {
+      await axios.post("https://kr-asset-backend.vercel.app/api/assets/", payload, {
         headers: { 
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data" 

@@ -65,7 +65,7 @@ const AdminRequests = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("http://localhost:5000/api/asset-update/admin/all", {
+      const res = await axios.get("https://kr-asset-backend.vercel.app/api/asset-update/admin/all", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRequests(res.data);
@@ -87,8 +87,8 @@ const AdminRequests = () => {
     try {
       const token = localStorage.getItem("authToken");
       const endpoint = status === 'APPROVE' 
-        ? `http://localhost:5000/api/asset-update/${selectedRequest._id}/approve`
-        : `http://localhost:5000/api/asset-update/${selectedRequest._id}/reject`;
+        ? `https://kr-asset-backend.vercel.app/api/asset-update/${selectedRequest._id}/approve`
+        : `https://kr-asset-backend.vercel.app/api/asset-update/${selectedRequest._id}/reject`;
 
       await axios.put(endpoint, {}, {
         headers: { Authorization: `Bearer ${token}` }

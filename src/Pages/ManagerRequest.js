@@ -50,7 +50,7 @@ const ManagerRequests = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("authToken");
-      const res = await axios.get("http://localhost:5000/api/asset-update/manager/pending", {
+      const res = await axios.get("https://kr-asset-backend.vercel.app/api/asset-update/manager/pending", {
         headers: { Authorization: `Bearer ${token}` }
       });
       setRequests(res.data);
@@ -74,9 +74,9 @@ const ManagerRequests = () => {
       let endpoint = "";
       
       // Update these strings to match your backend exactly
-      if (actionType === 'APPROVE') endpoint = `http://localhost:5000/api/asset-update/${selectedRequest._id}/manager-approve`;
-      else if (actionType === 'REJECT') endpoint = `http://localhost:5000/api/asset-update/${selectedRequest._id}/manager-reject`;
-      else if (actionType === 'ESCALATE') endpoint = `http://localhost:5000/api/asset-update/${selectedRequest._id}/escalate-to-admin`;
+      if (actionType === 'APPROVE') endpoint = `https://kr-asset-backend.vercel.app/api/asset-update/${selectedRequest._id}/manager-approve`;
+      else if (actionType === 'REJECT') endpoint = `https://kr-asset-backend.vercel.app/api/asset-update/${selectedRequest._id}/manager-reject`;
+      else if (actionType === 'ESCALATE') endpoint = `https://kr-asset-backend.vercel.app/api/asset-update/${selectedRequest._id}/escalate-to-admin`;
 
       await axios.put(endpoint, {}, {
         headers: { Authorization: `Bearer ${token}` }

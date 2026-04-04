@@ -75,7 +75,7 @@ const ManagerDashboard = () => {
           return;
         }
 
-        const res = await axios.get(`http://localhost:5000/api/assets/manager/${targetRegion}`, {
+        const res = await axios.get(`https://kr-asset-backend.vercel.app/api/assets/manager/${targetRegion}`, {
           headers: { Authorization: `Bearer ${auth.token}` }
         });
 

@@ -200,7 +200,7 @@ const UserList = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem("authToken");
-        const res = await axios.get("http://localhost:5000/api/auth/users", {
+        const res = await axios.get("https://kr-asset-backend.vercel.app/api/auth/users", {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUsers(res.data);
@@ -223,7 +223,7 @@ const UserList = () => {
 
     try {
       const token = localStorage.getItem("authToken");
-      await axios.delete(`http://localhost:5000/api/auth/users/${userId}`, {
+      await axios.delete(`https://kr-asset-backend.vercel.app/api/auth/users/${userId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

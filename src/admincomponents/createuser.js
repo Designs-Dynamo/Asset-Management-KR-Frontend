@@ -51,7 +51,7 @@ const CreateUser = () => {
 
     try {
       const token = localStorage.getItem("authToken");
-      await axios.post("http://localhost:5000/api/auth/register", formData, {
+      await axios.post("https://kr-asset-backend.vercel.app/api/auth/register", formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

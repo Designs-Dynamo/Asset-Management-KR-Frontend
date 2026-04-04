@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create an axios instance with your backend base URL
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // ⚠️ Replace with your actual Backend URL
+  baseURL: 'https://kr-asset-backend.vercel.app/api', // ⚠️ Replace with your actual Backend URL
   headers: {
     'Content-Type': 'application/json',
   },
@@ -56,7 +56,7 @@ export const fetchallAssets = async () => {
 export const fetchAssetDetails = async (id) => {
   try {
     // Matches backend: router.get("/:id", auth, getAssetDetails);
-    const response = await axios.get(`http://localhost:5000/api/assets/${id}`, {
+    const response = await axios.get(`https://kr-asset-backend.vercel.app/api/assets/${id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
@@ -70,7 +70,7 @@ export const fetchAssetDetails = async (id) => {
 export const fetchRequests = async (id) => {
   try {
     // Matches backend: router.get("/:id", auth, getAssetDetails);
-    const response = await axios.get(`http://localhost:5000/api/asset-update/pending`, {
+    const response = await axios.get(`https://kr-asset-backend.vercel.app/api/asset-update/pending`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
       },
