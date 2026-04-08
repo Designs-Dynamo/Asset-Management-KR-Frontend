@@ -17,6 +17,8 @@ import CreateUser from "./admincomponents/createuser";
 import UserList from "./admincomponents/users";
 import ManagerAssets from "./Pages/ManagerAssets";
 import ManagerRequests from "./Pages/ManagerRequest";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 
 function App() {
   return (
@@ -30,7 +32,10 @@ function App() {
             <Route path="/requests" element={<Requestwizard />} />
             <Route path="/allassets" element={<Adminassets />} />
             <Route path="/reports" element={<Reports />} />
-            <Route path="/:branchId/branchrequests" element={<BranchRequests />} />
+            <Route
+              path="/:branchId/branchrequests"
+              element={<BranchRequests />}
+            />
             <Route path="/success" element={<SuccessPage />} />
             {/* ADMIN ROUTES: Only 'ADMIN' can enter */}
             <Route
@@ -90,25 +95,29 @@ function App() {
             />
 
             {/* REGION MANAGER ROUTES */}
-            <Route 
-              path="/:regionId/manager/requests" 
+            <Route
+              path="/:regionId/manager/requests"
               element={
-                <ProtectedRoute allowedRoles={['REGION_MANAGER']}>
+                <ProtectedRoute allowedRoles={["REGION_MANAGER"]}>
                   <ManagerRequests />
                 </ProtectedRoute>
-              } 
+              }
             />
 
-            <Route 
-              path="/:regionId/manager/dashboard" 
+            <Route
+              path="/:regionId/manager/dashboard"
               element={
-                <ProtectedRoute allowedRoles={['REGION_MANAGER']}>
+                <ProtectedRoute allowedRoles={["REGION_MANAGER"]}>
                   <ManagerAssets />
                 </ProtectedRoute>
-              } 
+              }
             />
 
+                      <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           </Routes>
+
+
         </BrowserRouter>
       </div>
     </>

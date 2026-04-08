@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../utils/apiauth';
+import React, { useState } from "react";
+import { useNavigate,Link } from "react-router-dom";
+import { loginUser } from "../utils/apiauth";
 
 function Login() {
   const navigate = useNavigate();
@@ -28,25 +28,22 @@ function Login() {
       const data = await loginUser({ branchId, email, password });
 
       // 3. Save Auth Token and Role
-      localStorage.setItem('authToken', data.token); 
-      localStorage.setItem('userRole', data.user.role);
+      localStorage.setItem("authToken", data.token);
+      localStorage.setItem("userRole", data.user.role);
 
       // 4. FIXED Navigation Logic
-      // We pull the role directly from the API response 'data' 
+      // We pull the role directly from the API response 'data'
       const userRole = data.user.role;
 
-      if (userRole === 'ADMIN') {
+      if (userRole === "ADMIN") {
         navigate("/admindashboard");
-      } 
-      else if (userRole === 'REGION_MANAGER') {
+      } else if (userRole === "REGION_MANAGER") {
         // This will now trigger correctly
-      navigate(`/${data.user.regionId}/manager/dashboard`);
-      } 
-      else {
+        navigate(`/${data.user.regionId}/manager/dashboard`);
+      } else {
         // Standard User (Branch Staff)
         navigate(`/${data.user.branchId}/dashboard`);
       }
-
     } catch (err) {
       // Displays the specific error message from your backend
       setError(err.response?.data?.message || err.message || "Login failed");
@@ -62,12 +59,21 @@ function Login() {
         <header className="w-full flex items-center justify-between px-6 lg:px-12 py-6 relative z-10">
           <div className="flex items-center gap-3 text-primary">
             <div className="size-8 bg-primary/10 rounded-lg flex items-center justify-center">
-              <span className="material-symbols-outlined text-primary">account_tree</span>
+              <span className="material-symbols-outlined text-primary">
+                account_tree
+              </span>
             </div>
-            <h2 className="text-slate-900 dark:text-white text-lg font-bold tracking-tight">AssetTrack</h2>
+            <h2 className="text-slate-900 dark:text-white text-lg font-bold tracking-tight">
+              AssetTrack
+            </h2>
           </div>
           <div className="flex items-center gap-4">
-            <span className="text-slate-500 dark:text-[#a2b2b4] text-xs font-medium uppercase tracking-widest hidden sm:block">Internal Access Only</span>
+            <span className="text-slate-500 dark:text-[#a2b2b4] text-xs font-medium uppercase tracking-widest hidden sm:block">
+              Internal Access Only
+            </span>
+            <button className="flex items-center justify-center rounded-lg h-9 px-4 bg-slate-200 dark:bg-primary/20 text-slate-700 dark:text-white text-sm font-semibold hover:bg-slate-300 dark:hover:bg-primary/30 transition-colors">
+            Support
+          </button>
           </div>
         </header>
 
@@ -80,8 +86,12 @@ function Login() {
         {/* ===== Main Content ===== */}
         <main className="flex-1 flex items-center justify-center p-4 relative z-10">
           <div className="w-full max-w-[440px] bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark shadow-2xl rounded-xl p-8">
-            <h1 className="text-slate-900 dark:text-white text-2xl font-bold tracking-tight mb-2">System Login</h1>
-            <p className="text-slate-500 dark:text-[#a2b2b4] text-sm mb-8">Access your branch assets and inventory dashboard.</p>
+            <h1 className="text-slate-900 dark:text-white text-2xl font-bold tracking-tight mb-2">
+              System Login
+            </h1>
+            <p className="text-slate-500 dark:text-[#a2b2b4] text-sm mb-8">
+              Access your branch assets and inventory dashboard.
+            </p>
 
             <form className="space-y-5" onSubmit={handleSubmit}>
               <input
@@ -107,9 +117,22 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
+              {/* ADD THIS BOX START */}
+              <div className="flex justify-end mt-[-10px]">
+                <Link
+                  to="/forgot-password"
+                  className="text-[11px] uppercase tracking-widest text-primary hover:text-primary/80 font-bold transition-colors"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
+              {/* ADD THIS BOX END */}
+
               {error && (
                 <div className="flex items-center gap-2 px-3 py-2 bg-error/10 border border-error/20 rounded-lg">
-                  <span className="material-symbols-outlined text-error text-sm">error</span>
+                  <span className="material-symbols-outlined text-error text-sm">
+                    error
+                  </span>
                   <p className="text-error text-xs font-medium">{error}</p>
                 </div>
               )}
@@ -125,13 +148,15 @@ function Login() {
 
             <div className="mt-8 pt-6 border-t border-slate-100 dark:border-border-dark flex items-center justify-center gap-2">
               <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-              <span className="text-slate-500 dark:text-[#a2b2b4] text-[11px] uppercase tracking-[0.1em]">Admin & IT Access Secured</span>
+              <span className="text-slate-500 dark:text-[#a2b2b4] text-[11px] uppercase tracking-[0.1em]">
+                Admin & IT Access Secured
+              </span>
             </div>
           </div>
         </main>
       </div>
     </>
-  )
+  );
 }
 
-export default Login
+export default Login;
