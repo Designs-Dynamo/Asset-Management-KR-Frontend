@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, BrowserRouter, Route } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import Login from "./Pages/Login";
 import AssetDetails from "./Pages/assetdetails";
 import Requestwizard from "./components/requestwizard";
@@ -119,6 +120,7 @@ function App() {
 
 
         </BrowserRouter>
+        <SpeedInsights />
       </div>
     </>
   );

@@ -1,9 +1,38 @@
-import React, { useState } from "react";
-import { useNavigate,Link } from "react-router-dom";
-import { loginUser } from "../utils/apiauth";
+import React, { useState,useEffect } from 'react'
+import { useNavigate,link } from 'react-router-dom';
+import { loginUser } from '../utils/apiauth';
+import { jwtDecode } from 'jwt-decode';
 
 function Login() {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
+    
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        // Only redirect if token is NOT expired
+        if (decoded.exp > currentTime) {
+          if (decoded.role === 'ADMIN') {
+            navigate("/admindashboard");
+          } else if (decoded.role === 'REGION_MANAGER') {
+            navigate(`/${decoded.regionId}/manager/dashboard`);
+          } else {
+            navigate(`/${decoded.branchId}/dashboard`);
+          }
+        } else {
+          // Token expired, clear it
+          localStorage.removeItem('authToken');
+          localStorage.removeItem('userRole');
+        }
+      } catch (err) {
+        localStorage.removeItem('authToken');
+      }
+    }
+  }, [navigate]);
 
   const [branchId, setbranchId] = useState("");
   const [email, setEmail] = useState("");
