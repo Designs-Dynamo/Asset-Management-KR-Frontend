@@ -28,7 +28,7 @@ const ResetPassword = () => {
 
         setLoading(true);
         try {
-            const { data } = await axios.put(`http://localhost:5000/api/auth/reset-password/${token}`, { password });
+            const { data } = await axios.put(`https://kr-asset-backend-git-forgot-a6ba5e-jay-patels-projects-5e30b249.vercel.app/api/auth/reset-password/${token}`, { password });
             
             localStorage.setItem('authToken', data.token); // Updated key to match your Login logic
             setShowSuccess(true);
