@@ -14,7 +14,7 @@ const ForgotPassword = () => {
 
     try {
       // Points to your local backend. Added /api/auth to match your routes
-      const { data } = await axios.post("https://kr-asset-backend-git-forgot-a6ba5e-jay-patels-projects-5e30b249.vercel.app/api/auth/forgot-password", { email });
+      const { data } = await axios.post("https://kr-asset-backend.vercel.app/api/auth/forgot-password", { email });
       
       setStatus({ 
         type: 'success', 
